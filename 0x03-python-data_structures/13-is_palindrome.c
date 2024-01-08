@@ -1,27 +1,5 @@
 #include "lists.h"
-#include <stdlib.h>
-#include <stdio.h>
 
-/**
-* add_node_at - pointer to a newly added node to a listint_t
-* @head: double pointer to a listint_t
-* @n: int value to be stored in the new node
-*
-* Return: address of the newly added node, or NULL if it failed
-*/
-
-listint_t *add_node_at(listint_t **head, const int n)
-{
-	listint_t *new;
-
-	new = malloc(sizeof(listint_t));
-	if (new == NULL)
-		return (NULL);
-	new->n = n;
-	new->next = *head;
-	*head = new;
-	return (new);
-}
 
 /**
 * is_palindrome - checks if a linked list is palindrome
@@ -32,27 +10,35 @@ listint_t *add_node_at(listint_t **head, const int n)
 
 int is_palindrome(listint_t **head)
 {
-	listint_t *head2 = *head;
-	listint_t *aux = NULL, *aux2 = NULL;
+	listint_t *tmp = *head;
+	unsigned int size = 0, i = 0;
+	int data[10240];
 
-	if (*head == NULL || head2->next == NULL)
+	if (head == NULL)
+		return (0);
+
+	if (*head == NULL)
 		return (1);
-	while (head2 != NULL)
+
+	while (tmp)
 	{
-		add_node_at(&aux, head2->n);
-		head2 = head2->next;
+		tmp = tmp->next;
+		size += 1;
 	}
-	aux2 = aux;
-	while (*head != NULL)
+	if (size == 1)
+		return (1);
+
+	tmp = *head;
+	while (tmp)
 	{
-		if ((*head)->n != aux2->n)
-		{
-			free_listint(aux);
+		data[i++] = tmp->n;
+		tmp = tmp->next;
+	}
+
+	for (i = 0; i <= (size/2); i++)
+	{
+		if (data[i] != data[size - i - 1])
 			return (0);
-		}
-		*head = (*head)->next;
-		aux2 = aux2->next;
 	}
-	free_listint(aux);
 	return (1);
 }
