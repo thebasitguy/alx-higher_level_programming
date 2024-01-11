@@ -1,13 +1,17 @@
 #!/usr/bin/python3
 def roman_to_int(roman_string):
-    if not roman_string or type(roman_string) != str:
+    if roman_string is None or type(roman_string) is not str:
         return 0
-    mapping_data = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
-    result = 0
-    for i in range(len(roman_string)):
-        if i > 0 and mapping_data[roman_string[i]] > mapping_data[roman_string[i - 1]]:
-            result += mapping_data[roman_string[i]] - 2 * \
-                        mapping_data[roman_string[i - 1]]
+    if roman_string == "":
+        return 0
+    int_value = 0
+    roman_data = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+    for i, j in zip(roman_string, roman_string[1:]):
+        if i not in roman_data.keys():
+            return 0
+        elif roman_data[i] >= roman_data[j]:
+            int_value += roman_data[i]
         else:
-            result += mapping_data[roman_string[i]]
-    return result
+            int_value -= roman_data[i]
+    int_value += roman_data[roman_string[-1]]
+    return int_value
