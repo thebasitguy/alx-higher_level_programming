@@ -5,7 +5,7 @@ def roman_to_int(roman_string: str):
         return 0
 
     rom_to_int_mapping = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
-    numeral_values = [rom_to_int_mapping[char] for char in roman_string] + [0]
+    numeral_values = [rom_to_int_mapping[x] for x in roman_string] + [0]
     result = 0
 
     for i in range(len(numeral_values) - 1):
