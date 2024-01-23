@@ -3,7 +3,7 @@
 def safe_print_division(a, b):
 
     """Prints the division of a by b"""
-    
+
     try:
         div = a / b
     except (TypeError, ZeroDivisionError):
