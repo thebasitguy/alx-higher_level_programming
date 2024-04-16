@@ -1,7 +1,9 @@
 #!/usr/bin/python3
+
 '''
-Lists all City objects and their State in a database.
+Prints all City objects and their State in a database.
 '''
+
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
