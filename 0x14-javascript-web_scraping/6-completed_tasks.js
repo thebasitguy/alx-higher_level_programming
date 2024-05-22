@@ -1,33 +1,21 @@
 #!/usr/bin/node
-
 const request = require('request');
 
-const apiUrl = process.argv[2];
+if (process.argv.length > 2) {
+  request(process.argv[2], (err, res, body) => {
+    const aggregate = {};
 
-request(apiUrl, function (error, response, body) {
-  if (!error && response.statusCode === 200) {
-    try {
-      const todos = JSON.parse(body);
-
-      const completed = {};
-
-      todos.forEach((todo) => {
-        if (todo.completed) {
-          if (completed[todo.userId] === undefined) {
-            completed[todo.userId] = 1;
-          } else {
-            completed[todo.userId]++;
-          }
-        }
-      });
-
-      const output = `{${Object.entries(completed).map(([key, value]) => ` '${key}': ${value}`).join(',\n ')} }`;
-
-      console.log(Object.keys(completed).length > 2 ? output : completed);
-    } catch (parseError) {
-      console.error('Error parsing JSON:', parseError);
+    if (err) {
+      console.log(err);
     }
-  } else {
-    console.error('Error:', error);
-  }
-});
+    JSON.parse(body).forEach(element => {
+      if (element.completed) {
+        if (!aggregate[element.userId]) {
+          aggregate[element.userId] = 0;
+        }
+        aggregate[element.userId]++;
+      }
+    });
+    console.log(aggregate);
+  });
+}
